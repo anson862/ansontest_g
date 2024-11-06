@@ -23,15 +23,16 @@ app.post('/submit', async (req, res) => {
         });
         
         const data = await response.json();
+        console.log('Verification response:', data);
         
         if (data.success) {
-            // reCAPTCHA passed
             res.redirect('/result');
         } else {
-            // reCAPTCHA failed
+            console.error('Verification failed:', data['error-codes']);
             res.status(400).send('Verification failed');
         }
     } catch (error) {
+        console.error('Error:', error);
         res.status(500).send('Error verifying captcha');
     }
 });
