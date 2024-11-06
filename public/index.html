@@ -2,8 +2,8 @@
 <html>
 <head>
     <title>Form Test</title>
-    <!-- Add Turnstile script -->
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <!-- Add reCAPTCHA script -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -36,10 +36,9 @@
             <label for="email">Email:</label>
             <input type="text" id="email" name="email" required>
         </div>
-        <!-- Add Turnstile widget -->
-        <div class="cf-turnstile" 
-             data-sitekey="0x4AAAAAAAzWljrcMCw7KPGk"
-             data-theme="light"></div>
+        <!-- Add reCAPTCHA widget -->
+        <div class="g-recaptcha" 
+             data-sitekey="6Lc4znYqAAAAAHgd53sxmzd5Ist7WN2N0y89Ibyl"></div>
         <button type="submit">Submit</button>
     </form>
 </body>

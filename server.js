@@ -2,9 +2,6 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Add fetch for server-side requests
-const fetch = require('node-fetch');
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
@@ -14,26 +11,24 @@ app.get('/', (req, res) => {
 
 app.post('/submit', async (req, res) => {
     // Get the token from the request
-    const token = req.body['cf-turnstile-response'];
+    const recaptchaResponse = req.body['g-recaptcha-response'];
     
     // Verify the token
-    const formData = new URLSearchParams();
-    formData.append('secret', '0x4AAAAAAAzWli0vD4SjRqJ84inAuYdZiC8');
-    formData.append('response', token);
+    const secretKey = '6Lc4znYqAAAAAGcjdarqLPbJCxsb80tFcBVzxZMf';
+    const verifyURL = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${recaptchaResponse}`;
 
     try {
-        const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-            method: 'POST',
-            body: formData,
+        const response = await fetch(verifyURL, {
+            method: 'POST'
         });
         
         const data = await response.json();
         
         if (data.success) {
-            // Token is valid, process form
+            // reCAPTCHA passed
             res.redirect('/result');
         } else {
-            // Token is invalid
+            // reCAPTCHA failed
             res.status(400).send('Verification failed');
         }
     } catch (error) {
